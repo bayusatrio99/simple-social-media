@@ -2,9 +2,9 @@
 set -e
 
 mkdir -p bootstrap/cache \
-storage/framework/cache \
-storage/framework/sessions \
-storage/framework/views
+         storage/framework/cache \
+         storage/framework/sessions \
+         storage/framework/views
 
 chown -R www-data:www-data bootstrap storage || true
 chmod -R ug+rwx bootstrap storage || true
@@ -12,7 +12,12 @@ chmod -R ug+rwx bootstrap storage || true
 npm install --legacy-peer-deps --no-audit --progress=false
 npm run dev
 
-composer install --optimize-autoloader
+composer config --global allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+
+composer install \
+  --optimize-autoloader \
+  --no-interaction \
+  --ignore-platform-reqs
 
 cp .env.example .env || true
 
